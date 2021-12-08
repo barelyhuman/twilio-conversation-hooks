@@ -1,0 +1,25 @@
+name: Chores
+
+on: [push, pull_request]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        nodejs: [12, 14, 16]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.nodejs }}
+
+      - name: Install
+        run: npm i
+      - name: Test
+        run: npm run test
+      - name: Build
+        run: npm run build

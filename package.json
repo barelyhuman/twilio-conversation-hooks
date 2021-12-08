@@ -1,0 +1,33 @@
+{
+  "name": "@barelyhuman/twilio-conversations",
+  "description": "Context based function hooks for easier Twilio Conversations",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "clean": "rm -rf dist build package",
+    "prebuild": "yarn clean",
+    "ts-node": "ts-node",
+    "test": "echo 'done'",
+    "docs": "typedoc --entryPoints src/index.ts --excludeExternals",
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "yarn build"
+  },
+  "dependencies": {
+    "@twilio/conversations": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "eslint": "^7.22.0",
+    "ts-node": "^9.1.1",
+    "typedoc": "^0.22.10",
+    "typescript": "4.2.3"
+  },
+  "author": "Siddharth <ahoy@barelyhuman.dev>"
+}

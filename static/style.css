@@ -1,0 +1,44 @@
+:root {
+  --light-color-background: #ffffff;
+  --dark-color-background: #1a202c;
+}
+
+body {
+  --color-background: var(--light-color-background);
+  --panel-border: #e2e8f0;
+}
+
+body.dark {
+  --color-background: var(--dark-color-background);
+  --panel-border: rgba(255, 255, 255, 0.16);
+}
+
+.tsd-page-toolbar,
+.tsd-page-title {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.tsd-page-toolbar {
+  background: var(--color-background) !important;
+  border-bottom: 0px !important;
+}
+
+.tsd-panel {
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  border: 1px solid var(--panel-border) !important;
+  background: transparent;
+}
+
+footer {
+  border: 0px !important;
+  background: var(--color-background) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --color-background: var(--dark-color-background);
+    --panel-border: rgba(255, 255, 255, 0.16);
+  }
+}
