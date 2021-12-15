@@ -13,7 +13,11 @@ While twilio provides a good event based stream to handle the conversation, reme
 
 ## Install
 
-Currently in a private registry, mail to ahoy@barelyhuman.dev if you'd like to make this public
+```sh
+npm i @barelyhuman/twilio-conversations
+# or
+yarn add @barelyhuman/twilio-conversations
+```
 
 ## Usage
 
