@@ -200,16 +200,23 @@ export async function findConversations(args: object | null | string): Promise<
     const conversation = await client.getConversationBySid(args);
     return createHooks(conversation);
   }
-  const conversations = await client.getSubscribedConversations(args);
-  return Object.assign(conversations, {
-    nextPage: () => conversations.nextPage().then(_modifyPaginatorResult),
-    prevPage: () => conversations.prevPage().then(_modifyPaginatorResult),
-    items: conversations.items.map(createHooks),
-  });
+
+  const conversations = await paginatorModifier(() =>
+    client.getSubscribedConversations(args)
+  );
+
+  return conversations;
 }
 
-function _modifyPaginatorResult(result: Paginator<Conversation>) {
-  return Object.assign(result, {
-    items: result.items.map(createHooks),
+async function paginatorModifier(fetcher: () => Promise<any>): Promise<
+  Paginator<Conversation> & {
+    items: ConversationHooks[];
+  }
+> {
+  const data = await fetcher();
+  return Object.assign(data, {
+    prevPage: () => paginatorModifier(data.prevPage),
+    nextPage: () => paginatorModifier(data.nextPage),
+    items: data.items.map(createHooks),
   });
 }
