@@ -17,6 +17,7 @@
     "docs": "typedoc --entryPoints src/index.ts --excludeExternals",
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "dev": "npm run build -- --watch source",
+    "release": "np",
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "eslint": "^7.22.0",
+    "np": "^7.6.0",
     "ts-node": "^9.1.1",
     "tsup": "^5.11.5",
     "typedoc": "^0.22.10",
