@@ -184,12 +184,9 @@ export function onConversationRemoved(
  * get conversation items from twilio, you can use the conversation `sid` to get a single conversation or
  * send and object of arguments or null for getting all subscribed conversations
  */
-export async function findConversations(args: object | null | string): Promise<
-  | ConversationHooks
-  | (Paginator<Conversation> & {
-      items: ConversationHooks[];
-    })
-> {
+export async function findConversations(
+  args?: object | string
+): Promise<ConversationHooks | PaginatorConversationHooks> {
   if (!client) {
     bail(
       "Please make sure to initialize the client before using this function"
@@ -201,22 +198,28 @@ export async function findConversations(args: object | null | string): Promise<
     return createHooks(conversation);
   }
 
-  const conversations = await paginatorModifier(() =>
-    client.getSubscribedConversations(args)
+  const conversations = toConversationHooksPaginator(
+    await client.getSubscribedConversations(args)
   );
 
   return conversations;
 }
 
-async function paginatorModifier(fetcher: () => Promise<any>): Promise<
-  Paginator<Conversation> & {
-    items: ConversationHooks[];
-  }
-> {
-  const data = await fetcher();
-  return Object.assign(data, {
-    prevPage: () => paginatorModifier(data.prevPage),
-    nextPage: () => paginatorModifier(data.nextPage),
+export type PaginatorConversationHooks = {
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  items: ConversationHooks[];
+  nextPage: () => Promise<PaginatorConversationHooks>;
+  prevPage: () => Promise<PaginatorConversationHooks>;
+};
+
+function toConversationHooksPaginator(
+  data: Paginator<Conversation>
+): PaginatorConversationHooks {
+  return {
+    ...data,
     items: data.items.map(createHooks),
-  });
+    nextPage: () => data.nextPage().then(toConversationHooksPaginator),
+    prevPage: () => data.prevPage().then(toConversationHooksPaginator),
+  };
 }
