@@ -69,43 +69,43 @@ function createHooks(conversation: Conversation) {
       return conversation.sendMessage(...params);
     },
     onMessageAdded(cb) {
-      conversation.on("messageAdded", cb);
+      conversation.addListener("messageAdded", cb);
       return conversation;
     },
     onMessageRemoved(cb) {
-      conversation.on("messageRemoved", cb);
+      conversation.addListener("messageRemoved", cb);
       return conversation;
     },
     onMessageUpdated(cb) {
-      conversation.on("messageUpdated", cb);
+      conversation.addListener("messageUpdated", cb);
       return conversation;
     },
     onParticipantJoined(cb) {
-      conversation.on("participantJoined", cb);
+      conversation.addListener("participantJoined", cb);
       return conversation;
     },
     onParticipantLeft(cb) {
-      conversation.on("participantLeft", cb);
+      conversation.addListener("participantLeft", cb);
       return conversation;
     },
     onParticipantUpdated(cb) {
-      conversation.on("participantUpdated", cb);
+      conversation.addListener("participantUpdated", cb);
       return conversation;
     },
     onRemoved(cb) {
-      conversation.on("removed", cb);
+      conversation.addListener("removed", cb);
       return conversation;
     },
     onTypingEnded(cb) {
-      conversation.on("typingEnded", cb);
+      conversation.addListener("typingEnded", cb);
       return conversation;
     },
     onTypingStarted(cb) {
-      conversation.on("typingStarted", cb);
+      conversation.addListener("typingStarted", cb);
       return conversation;
     },
     onUpdated(cb) {
-      conversation.on("updated", cb);
+      conversation.addListener("updated", cb);
       return conversation;
     },
   };

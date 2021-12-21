@@ -11,7 +11,7 @@ export const _reactTo = <T extends typeof CLIENT_EVENT_TYPES>(
   if (!client) {
     throw new Error("client not connected...");
   }
-  return client.on(event as any, cb);
+  return client.addListener(event as any, cb);
 };
 
 /**
