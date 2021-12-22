@@ -7,11 +7,13 @@ export let client: Client;
 export const _reactTo = <T extends typeof CLIENT_EVENT_TYPES>(
   event: T[keyof T],
   cb: (...params: any) => void
-): Client => {
+) => {
   if (!client) {
     throw new Error("client not connected...");
   }
-  return client.addListener(event as any, cb);
+  client.addListener(event as any, cb);
+  const unsubscribe = () => client.removeListener(event as any, cb);
+  return { client, unsubscribe };
 };
 
 /**
@@ -37,9 +39,11 @@ export function createClient(token: string, options?: ClientOptions) {
  * The ReactionCallback here receives nothing as params
  */
 export function onInit(cb: () => void) {
-  return _reactTo(CLIENT_EVENT_TYPES.stateChanged, (state) => {
+  function reactionHandler(state: any) {
     if (state === "initialized") {
       cb && cb();
     }
-  });
+  }
+
+  return _reactTo(CLIENT_EVENT_TYPES.stateChanged, reactionHandler);
 }
