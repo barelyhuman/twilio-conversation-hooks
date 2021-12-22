@@ -1,7 +1,7 @@
 {
   "name": "@barelyhuman/twilio-conversations",
   "description": "Context based function hooks for easier Twilio Conversations",
-  "version": "0.0.5-0",
+  "version": "0.0.5-1",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
