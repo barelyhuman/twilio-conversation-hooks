@@ -35,31 +35,52 @@ export interface ConversationHooks {
     messageAttributes?: any,
     emailOptions?: SendEmailOptions | undefined
   ) => Promise<number>;
-  onMessageAdded: (cb: (messageResource: Message) => void) => Conversation;
-  onMessageRemoved: (cb: (messageResource: Message) => void) => Conversation;
+  onMessageAdded: (cb: (messageResource: Message) => void) => {
+    conversation: Conversation;
+    unsubscribe: () => Conversation;
+  };
+  onMessageRemoved: (cb: (messageResource: Message) => void) => {
+    conversation: Conversation;
+    unsubscribe: () => Conversation;
+  };
   onMessageUpdated: (
     cb: (data: {
       message: Message;
       updateReasons: MessageUpdateReason[];
     }) => void
-  ) => Conversation;
-  onParticipantJoined: (cb: (participant: Participant) => void) => Conversation;
-  onParticipantLeft: (cb: (participant: Participant) => void) => Conversation;
+  ) => { conversation: Conversation; unsubscribe: () => Conversation };
+  onParticipantJoined: (cb: (participant: Participant) => void) => {
+    conversation: Conversation;
+    unsubscribe: () => Conversation;
+  };
+  onParticipantLeft: (cb: (participant: Participant) => void) => {
+    conversation: Conversation;
+    unsubscribe: () => Conversation;
+  };
   onParticipantUpdated: (
     cb: (data: {
       participant: Participant;
       updateReasons: ParticipantUpdateReason[];
     }) => void
-  ) => Conversation;
-  onRemoved: (cb: (conversation: Conversation) => void) => Conversation;
-  onTypingEnded: (cb: (participant: Participant) => void) => Conversation;
-  onTypingStarted: (cb: (participant: Participant) => void) => Conversation;
+  ) => { conversation: Conversation; unsubscribe: () => Conversation };
+  onRemoved: (cb: (conversation: Conversation) => void) => {
+    conversation: Conversation;
+    unsubscribe: () => Conversation;
+  };
+  onTypingEnded: (cb: (participant: Participant) => void) => {
+    conversation: Conversation;
+    unsubscribe: () => Conversation;
+  };
+  onTypingStarted: (cb: (participant: Participant) => void) => {
+    conversation: Conversation;
+    unsubscribe: () => Conversation;
+  };
   onUpdated: (
     cb: (data: {
       conversation: Conversation;
       updateReasons: ConversationUpdateReason[];
     }) => void
-  ) => Conversation;
+  ) => { conversation: Conversation; unsubscribe: () => Conversation };
 }
 
 function createHooks(conversation: Conversation) {
@@ -69,44 +90,65 @@ function createHooks(conversation: Conversation) {
       return conversation.sendMessage(...params);
     },
     onMessageAdded(cb) {
-      conversation.addListener("messageAdded", cb);
-      return conversation;
+      const _event = "messageAdded";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onMessageRemoved(cb) {
-      conversation.addListener("messageRemoved", cb);
-      return conversation;
+      const _event = "messageRemoved";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onMessageUpdated(cb) {
-      conversation.addListener("messageUpdated", cb);
-      return conversation;
+      const _event = "messageUpdated";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onParticipantJoined(cb) {
-      conversation.addListener("participantJoined", cb);
-      return conversation;
+      const _event = "participantJoined";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onParticipantLeft(cb) {
-      conversation.addListener("participantLeft", cb);
-      return conversation;
+      const _event = "participantLeft";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onParticipantUpdated(cb) {
+      const _event = "participantUpdated";
       conversation.addListener("participantUpdated", cb);
-      return conversation;
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onRemoved(cb) {
-      conversation.addListener("removed", cb);
-      return conversation;
+      const _event = "removed";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onTypingEnded(cb) {
-      conversation.addListener("typingEnded", cb);
-      return conversation;
+      const _event = "typingEnded";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onTypingStarted(cb) {
-      conversation.addListener("typingStarted", cb);
-      return conversation;
+      const _event = "typingStarted";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
     onUpdated(cb) {
-      conversation.addListener("updated", cb);
-      return conversation;
+      const _event = "updated";
+      conversation.addListener(_event, cb);
+      const unsubscribe = () => conversation.removeListener(_event, cb);
+      return { conversation, unsubscribe };
     },
   };
   return hooks;
