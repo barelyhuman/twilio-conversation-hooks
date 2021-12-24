@@ -47,3 +47,7 @@ export function onInit(cb: () => void) {
 
   return _reactTo(CLIENT_EVENT_TYPES.stateChanged, reactionHandler);
 }
+
+export function getClient() {
+  return client;
+}

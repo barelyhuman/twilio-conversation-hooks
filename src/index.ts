@@ -1,4 +1,4 @@
-export { createClient, onInit } from "./client";
+export { createClient, onInit, getClient } from "./client";
 export * from "./conversation";
 export * from "./messages";
 export * from "./user";
