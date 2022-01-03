@@ -24,8 +24,12 @@ export const _reactTo = <T extends typeof CLIENT_EVENT_TYPES>(
  *
  * use onInit to find out when the client is ready
  * */
-export function createClient(token: string, options?: ClientOptions) {
-  if (client) {
+export function createClient(
+  token: string,
+  options?: ClientOptions,
+  forceNew: Boolean = false
+) {
+  if (client && !forceNew) {
     return client;
   }
   client = new Client(token, options);
