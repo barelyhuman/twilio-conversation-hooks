@@ -21,7 +21,7 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@twilio/conversations": "^2.0.0"
+    "@twilio/conversations": "2.0.0"
   },
   "devDependencies": {
     "@types/node": "^15.0.1",
